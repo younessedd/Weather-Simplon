@@ -140,13 +140,15 @@ async function getWeatherByCoords(lat, lon) {
     updateHourlyForecast(forecastData);
     updateDailyForecast(forecastData);
 
+    // ** إضافة رسم المخطط الأسبوعي هنا **
+    renderWeeklyChart(convertToDailyData(forecastData));
+
     // تحديث عرض تاريخ اليوم بشكل منسق باللغة الفرنسية
     const todayDateElement = document.getElementById('today-date');
     const today = new Date();
     const options = { weekday: 'long', month: 'long', day: 'numeric' };
     const todayFormatted = today.toLocaleDateString('fr-FR', options);
     if (todayDateElement) {
-      // نجعل أول حرف كبير
       todayDateElement.textContent = todayFormatted.charAt(0).toUpperCase() + todayFormatted.slice(1);
     }
 
@@ -204,6 +206,9 @@ async function getWeatherByCity(city) {
     updateCurrentWeather(currentWeatherData, false, displayName);
     updateHourlyForecast(forecastData);
     updateDailyForecast(forecastData);
+
+    // ** إضافة رسم المخطط الأسبوعي هنا **
+    renderWeeklyChart(convertToDailyData(forecastData));
 
     // تحديث الخريطة مع إحداثيات المدينة الجديدة
     const lat = currentWeatherData.coord.lat;
@@ -330,37 +335,118 @@ function updateThemeByTime(timestamp, timezone) {
   const date = new Date((timestamp + timezone) * 1000);  // حساب الوقت المحلي
   const hours = date.getUTCHours();                       // الحصول على الساعة
   if (hours >= 18 || hours < 6) {                         // إذا كانت الساعة بين 6 مساءً و6 صباحًا
-    document.documentElement.setAttribute('data-theme', 'dark'); // تعيين الثيم إلى داكن
-    themeToggle.innerHTML = '<i class="wi wi-moon-waxing-crescent-3"></i>'; // تغيير أيقونة الزر
+    document.documentElement.setAttribute('data-theme', 'dark');  // وضع داكن
+    if (themeToggle) themeToggle.textContent = '☀️';              // أيقونة تبديل للنهار
   } else {
-    document.documentElement.removeAttribute('data-theme');          // إزالة الثيم الداكن (نهاري)
-    themeToggle.innerHTML = '<i class="wi wi-day-sunny"></i>';       // أيقونة الشمس للنهار
+    document.documentElement.setAttribute('data-theme', 'light'); // وضع نهاري
+    if (themeToggle) themeToggle.textContent = '🌙';              // أيقونة تبديل للليل
   }
 }
 
-// === 18. تبديل المظهر يدويًا من المستخدم (زر تبديل الثيم) ===
+// === 18. تبديل الثيم عند الضغط على زر الثيم ===
 function toggleTheme() {
-  const html = document.documentElement;
-  if (html.getAttribute('data-theme') === 'dark') {     // إذا كان الوضع داكن
-    html.removeAttribute('data-theme');                  // إلغاء الوضع الداكن
-    themeToggle.innerHTML = '<i class="wi wi-day-sunny"></i>'; // عرض أيقونة النهار
+  if (document.documentElement.getAttribute('data-theme') === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'light');
+    themeToggle.textContent = '🌙';
   } else {
-    html.setAttribute('data-theme', 'dark');             // تعيين الوضع الداكن
-    themeToggle.innerHTML = '<i class="wi wi-moon-waxing-crescent-3"></i>'; // عرض أيقونة القمر
+    document.documentElement.setAttribute('data-theme', 'dark');
+    themeToggle.textContent = '☀️';
   }
 }
 
-// === 19. إظهار أو إخفاء مؤشر التحميل أثناء جلب البيانات ===
+// === 19. إظهار وإخفاء مؤشر التحميل ===
 function showLoading(show) {
-  const container = document.querySelector('.container'); // حاوية المحتوى الرئيسي
-  if (show) {
-    const loadingDiv = document.createElement('div');    // إنشاء عنصر جديد لعلامة التحميل
-    loadingDiv.className = 'loading';                      // تعيين كلاس التحميل (لتنسيق CSS)
-    loadingDiv.id = 'loading';                             // تعيين معرف فريد
-    container.style.position = 'relative';                // تعديل CSS لجعل التحميل ظاهرًا بشكل صحيح
-    container.appendChild(loadingDiv);                     // إضافة عنصر التحميل إلى الحاوية
-  } else {
-    const loadingElement = document.getElementById('loading'); // البحث عن عنصر التحميل الحالي
-    if (loadingElement) loadingElement.remove();                // إزالته إذا كان موجودًا
+  const loader = document.getElementById('loader');
+  if (!loader) return;
+  loader.style.display = show ? 'block' : 'none';
+}
+
+// === 20. دالة لتحويل بيانات forecast إلى بيانات يومية مناسبة للمخطط الأسبوعي ===
+function convertToDailyData(forecastData) {
+  const daysMap = {};
+  forecastData.list.forEach(item => {
+    const date = new Date(item.dt * 1000);
+    const dayKey = date.toISOString().split('T')[0]; // تنسيق YYYY-MM-DD
+    if (!daysMap[dayKey]) {
+      daysMap[dayKey] = {
+        dt: item.dt,
+        temp: { day: item.main.temp }
+      };
+    } else {
+      // تخزين أعلى درجة حرارة في اليوم (يمكنك تعديلها لمتوسط إن أردت)
+      daysMap[dayKey].temp.day = Math.max(daysMap[dayKey].temp.day, item.main.temp);
+    }
+  });
+  // نعيد المصفوفة مع أول 7 أيام
+  return Object.values(daysMap).slice(0, 7);
+}
+
+// === 21. رسم المخطط الأسبوعي لدرجة الحرارة باستخدام Chart.js ===
+let weeklyChartInstance = null;
+
+function renderWeeklyChart(dailyData) {
+  const ctx = document.getElementById('hourlyTempChart').getContext('2d');
+
+  // تحضير بيانات المحور الأفقي (أسماء الأيام)
+  const labels = dailyData.map(day => {
+    const date = new Date(day.dt * 1000);
+    return date.toLocaleDateString('fr-FR', { weekday: 'short' });
+  });
+
+  // تحضير بيانات المحور الرأسي (درجات الحرارة اليومية)
+  const temps = dailyData.map(day => Math.round(day.temp.day));
+
+  // حذف الرسم السابق إذا كان موجوداً
+  if (weeklyChartInstance) {
+    weeklyChartInstance.destroy();
   }
+
+  // إنشاء رسم جديد
+  weeklyChartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Température quotidienne (°)',
+        data: temps,
+        backgroundColor: 'rgba(255, 193, 7, 0.2)',
+        borderColor: 'rgba(255, 193, 7, 1)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.3,
+        pointRadius: 4,
+        pointBackgroundColor: 'rgba(255, 193, 7, 1)',
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: false,
+          ticks: {
+            callback: val => val + '°',
+            font: {
+              size: 14
+            }
+          }
+        },
+        x: {
+          ticks: {
+            font: {
+              size: 14
+            }
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          labels: {
+            font: {
+              size: 14
+            }
+          }
+        }
+      }
+    }
+  });
 }

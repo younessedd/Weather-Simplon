@@ -1,60 +1,72 @@
 <!DOCTYPE html>
-<html lang="fr"> <!-- Declares the language as French, important for accessibility and SEO -->
+<html lang="fr"> <!-- Déclare la langue comme le français, important pour l'accessibilité et le SEO -->
 <head>
-  <meta charset="UTF-8" /> <!-- Sets character encoding to UTF-8 for proper text display -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Responsive meta tag for mobile devices -->
-  <title>HitRadio - Contact</title> <!-- Page title shown in browser tab and SEO -->
+  <meta charset="UTF-8" /> <!-- Définit l'encodage des caractères en UTF-8 pour un affichage correct du texte -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Meta responsive pour les appareils mobiles -->
+  <title>HitRadio - Contact</title> <!-- Titre de la page affiché dans l'onglet du navigateur et pour le SEO -->
   
-  <!-- CSS Stylesheets -->
-  <link rel="stylesheet" href="Contact.css">  <!-- Contact page specific styles -->
-  <link rel="stylesheet" href="header.css">     <!-- Header/navbar styles -->
-  <link rel="stylesheet" href="../dark.css">    <!-- Dark mode styles -->
+  <!-- Feuilles de styles CSS -->
+  <link rel="stylesheet" href="Contact.css">  <!-- Styles spécifiques à la page Contact -->
+  <link rel="stylesheet" href="header.css">   <!-- Styles pour l'en-tête/la barre de navigation -->
+  <link rel="stylesheet" href="../dark.css">  <!-- Styles pour le mode sombre -->
 </head>
 <body>
 
   <!-- NAVBAR -->
-  <!-- The header contains logo, menu toggle button, navigation links, and theme toggle -->
+  <!-- L'en-tête contient le logo, le bouton du menu, les liens de navigation et le bouton de changement de thème -->
   <header>
-    <div class="logo">🎵 HitRadio</div> <!-- Logo with emoji -->
+    <div class="logo">🎵 HitRadio</div> <!-- Logo avec un emoji -->
     
-    <!-- Button for toggling navigation menu on smaller screens, aria-label for accessibility -->
+    <!-- Bouton pour basculer le menu de navigation sur les petits écrans, aria-label pour l'accessibilité -->
     <button class="menu-toggle" aria-label="Toggle menu">☰</button>
     
-    <!-- Navigation menu -->
+    <!-- Menu de navigation -->
     <nav>
       <ul>
-        <!-- Theme toggle button inside the menu -->
+        <!-- Bouton de changement de thème dans le menu -->
         <button id="theme-toggle" class="theme-btn">🌙</button>
         
-        <!-- Navigation links -->
+        <!-- Liens de navigation -->
         <li><a href="../home/home.html">Home</a></li>
         <li><a href="../about/about.html">About-Us</a></li>
       </ul>
     </nav>
   </header>
 
-  <!-- MAIN CONTENT: Contact Section -->
-<main id="contact-main" class="dark">
-  <h1>Contactez-nous</h1>
-  <form class="contact-form" action="#" method="post">
-    <label for="name">Nom complet</label>
-    <input type="text" id="name" name="name" placeholder="Votre nom" required />
-    
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" placeholder="votre.email@example.com" required />
-    
-    <label for="message">Message</label>
-    <textarea id="message" name="message" rows="6" placeholder="Votre message ici..." required></textarea>
-    
-    <button type="submit">Envoyer</button>
-  </form>
-</main>
+<section class="contact-section">
+  <!-- Conteneur de la fenêtre modale -->
+  <div id="contactModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span> <!-- Bouton de fermeture de la modale -->
+      
+      <!-- Formulaire de contact commence ici -->
+      <main id="contact-main" class="dark">
+        <h1>Contactez-nous</h1> <!-- Titre principal de la section contact -->
+        <form id="contactForm" class="contact-form" action="#" method="post">
+          <label for="name">Nom complet</label> <!-- Label pour le champ nom -->
+          <input type="text" id="name" name="name" placeholder="Votre nom" required /> <!-- Champ texte pour le nom, requis -->
+          
+          <label for="email">Email</label> <!-- Label pour le champ email -->
+          <input type="email" id="email" name="email" placeholder="votre.email@example.com" required /> <!-- Champ email, requis -->
 
-  <!-- JavaScript files -->
-  <script src="Contact.js"></script>  <!-- JavaScript specific to contact page (e.g., form validation) -->
-  <script src="../darknew.js" defer></script> <!-- JavaScript handling dark mode toggling -->
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+          <label for="phone">Téléphone</label> <!-- Label pour le champ téléphone -->
+          <input type="tel" id="phone" name="phone" placeholder="Votre numéro de téléphone" /> <!-- Champ téléphone, optionnel -->
+          
+          <label for="message">Message</label> <!-- Label pour la zone de texte message -->
+          <textarea id="message" name="message" rows="6" placeholder="Votre message ici..." required></textarea> <!-- Zone texte message, requis -->
+          
+          <button type="submit">Envoyer</button> <!-- Bouton de soumission du formulaire -->
+        </form>
+      </main>
+      
+    </div>
+  </div>
+</section>
 
+  <!-- Fichiers JavaScript -->
+  <script src="Contact.js"></script>  <!-- JS spécifique à la page Contact (ex : validation formulaire) -->
+  <script src="../darknew.js" defer></script> <!-- JS pour la gestion du mode sombre -->
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script> <!-- Librairie EmailJS -->
 
 </body>
 </html>
