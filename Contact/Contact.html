@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr"> <!-- Declares the language as French, important for accessibility and SEO -->
+<head>
+  <meta charset="UTF-8" /> <!-- Sets character encoding to UTF-8 for proper text display -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Responsive meta tag for mobile devices -->
+  <title>HitRadio - Contact</title> <!-- Page title shown in browser tab and SEO -->
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="contact.css" />  <!-- Contact page specific styles -->
+  <link rel="stylesheet" href="header.css">     <!-- Header/navbar styles -->
+  <link rel="stylesheet" href="../dark.css">    <!-- Dark mode styles -->
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <!-- The header contains logo, menu toggle button, navigation links, and theme toggle -->
+  <header>
+    <div class="logo">🎵 HitRadio</div> <!-- Logo with emoji -->
+    
+    <!-- Button for toggling navigation menu on smaller screens, aria-label for accessibility -->
+    <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+    
+    <!-- Navigation menu -->
+    <nav>
+      <ul>
+        <!-- Theme toggle button inside the menu -->
+        <button id="theme-toggle" class="theme-btn">🌙</button>
+        
+        <!-- Navigation links -->
+        <li><a href="../home/home.html">Home</a></li>
+        <li><a href="../about/about.html">About-Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT: Contact Section -->
+<main id="contact-main">
+  <h1>Contactez-nous</h1>
+
+  <form class="contact-form">
+    <label for="name">Nom complet</label>
+    <input type="text" id="name" name="user_name" placeholder="Votre nom" required />
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="user_email" placeholder="votre.email@example.com" required />
+
+    <label for="phone">Téléphone (optionnel)</label>
+    <input type="text" id="phone" name="user_phone" placeholder="+212..." />
+
+    <label for="message">Message</label>
+    <textarea id="message" name="message" rows="6" placeholder="Votre message ici..." required></textarea>
+
+    <!-- سيتم تعبئة هذا الحقل تلقائيًا -->
+    <input type="hidden" name="time" id="time" />
+
+    <button type="submit">Envoyer</button>
+  </form>
+</main>
+
+  <!-- JavaScript files -->
+  <script src="contact.js"></script>  <!-- JavaScript specific to contact page (e.g., form validation) -->
+  <script src="../darknew.js" defer></script> <!-- JavaScript handling dark mode toggling -->
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
+
+</body>
+</html>

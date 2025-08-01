@@ -1,0 +1,635 @@
+/* ============================================================= */
+/*                 1. تعريف المتغيرات العامة (Variables)         */
+/* ============================================================= */
+:root {
+  --primary-color: #f1c40f;
+  --primary-color-dark: #d1ac06;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --card-bg-dark: rgba(25, 34, 54, 0.9);
+  --border-radius: 16px;
+  --shadow-light: 0 10px 30px rgba(215, 0, 0, 0.22);
+  --shadow-dark: 0 10px 30px rgba(215, 0, 0, 0.85);
+  --transition: 0.4s ease;
+}
+
+/* ============================================================= */
+/*          2. إعدادات الواجهة العامة - الحاويات (Containers)     */
+/* ============================================================= */
+
+/* تاريخ اليوم */
+.today-date {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 10px;
+  font-weight: 600;
+  text-transform: capitalize;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* منطقة البحث والإعدادات */
+.search-and-settings {
+  position: fixed;
+  top: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+  max-width: 680px;
+  width: 90%;
+  margin: 0;
+  text-align: center;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+  transition: var(--transition);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+/* البحث - حاوية المدخلات */
+.search-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: #f9f9f9;
+  padding: 10px 14px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  flex: 1 1 300px;
+  max-width: 100%;
+}
+
+.search-container input[type="text"] {
+  flex-grow: 1;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 2px solid #ddd;
+  transition: all 0.3s ease;
+}
+
+.search-container input[type="text"]:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 8px var(--primary-color);
+  outline: none;
+}
+
+.search-container button {
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.search-container button i {
+  font-size: 1.1rem;
+}
+
+.search-container button:hover {
+  background-color: var(--primary-color-dark);
+}
+
+/* أزرار وحدة القياس */
+.units {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.unit-btn {
+  padding: 8px 16px;
+  border: 2px solid var(--primary-color);
+  background-color: white;
+  color: var(--primary-color);
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.unit-btn.active,
+.unit-btn:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* ============================================================= */
+/*                      3. الهيكل الرئيسي (Main)                  */
+/* ============================================================= */
+main {
+  height: 90%;
+  width: 90%;
+  background-color: rgba(255, 255, 255, 0.92);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(215, 0, 0, 0.18);
+  padding: 20px;
+  text-align: center;
+  transition: background-color 0.6s ease, box-shadow 0.6s ease;
+  position: relative;
+  top: 150px;
+  left: 80px;
+  right: 80px;
+  display: flex;
+}
+
+/* ============================================================= */
+/*                   4. قسم الطقس الحالي (Current Weather)         */
+/* ============================================================= */
+.current-weather {
+  background: linear-gradient(145deg, #ffffff, #f2f2f2);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-light);
+  text-align: center;
+  transition: background-color 0.5s ease, box-shadow 0.5s ease;
+  user-select: none;
+  border: 1px solid #eee;
+  z-index: 0;
+  top: 10px;
+  left: 10px;
+  width: 45%;
+  height: 90%;
+}
+
+.current-weather h2:first-of-type {
+  font-size: 2.2rem;
+  color: #333;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 800;
+  position: relative;
+  display: inline-block;
+}
+
+.current-weather h2:first-of-type::after {
+  content: '';
+  display: block;
+  margin: 6px auto 0;
+  border-radius: 2px;
+}
+
+#city-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.weather-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  margin: 30px;
+  flex-wrap: wrap;
+  height: 50%;
+}
+
+#weather-icon i {
+  font-size: 6rem;
+  color: var(--primary-color);
+  filter: drop-shadow(0 0 6px var(--primary-color));
+  transition: color 0.5s ease, filter 0.5s ease;
+}
+
+.weather-temp {
+  font-size: 4rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-shadow: 0 2px 8px rgba(215, 0, 0, 0.7);
+  user-select: text;
+  color: #222;
+}
+
+#weather-description {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.weather-details {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+.weather-details .detail {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+  color: #444;
+  background: #f9f9f9;
+  padding: 10px 14px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.weather-details .detail:hover {
+  transform: translateY(-3px);
+}
+
+.weather-details .detail i {
+  font-size: 1.5rem;
+  color: var(--primary-color-dark);
+}
+
+/* ============================================================= */
+/*              5. أوصاف إضافية ومعلومات الطقس (Details)          */
+/* ============================================================= */
+#weather-description {
+  font-size: 1.3rem;
+  font-weight: 600;
+  font-style: italic;
+  text-transform: capitalize;
+  margin-bottom: 30px;
+  color: #555;
+  letter-spacing: 0.05em;
+}
+
+.weather-details {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  font-weight: 700;
+  font-size: 1.1rem;
+  user-select: none;
+}
+
+.detail {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #444;
+  transition: color 0.4s ease;
+}
+
+.detail i {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  filter: drop-shadow(0 0 6px var(--primary-color));
+  transition: color 0.4s ease, filter 0.4s ease;
+}
+
+/* ============================================================= */
+/*                6. التوقعات الساعية (Hourly Forecast)            */
+/* ============================================================= */
+.hourly-forecast {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 70px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-light);
+  transition: background-color 0.5s ease, box-shadow 0.5s ease;
+  user-select: none;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) transparent;
+  bottom: 100px;
+  left: 10px;
+  width: 45%;
+  /* height: auto; */
+}
+
+.hourly-forecast::-webkit-scrollbar {
+  height: 6px;
+}
+
+.hourly-forecast::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.hourly-forecast::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 6px;
+}
+
+h3 {
+  margin-bottom: 20px;
+  color: var(--primary-color);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+/* ============================================================= */
+/*                7. الحاوية الزمنية (Hourly Container)            */
+/* ============================================================= */
+.hourly-container {
+  display: flex;
+  gap: 18px;
+  padding-bottom: 8px;
+  height: auto;
+}
+
+/* ============================================================= */
+/*                      8. خريطة الطقس (Map Section)               */
+/* ============================================================= */
+#map-section {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  margin: 20px 0;
+  box-shadow: var(--shadow-light);
+  transition: background-color 0.5s ease, box-shadow 0.5s ease;
+  user-select: none;
+  width: 100%;
+  height: 250px;
+  position: relative;
+  left: 0;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.weather-map h3 {
+  margin: 25px;
+}
+
+/* ============================================================= */
+/*                 9. التوقعات اليومية (Daily Forecast)            */
+/* ============================================================= */
+.daily-forecast {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 3px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-light);
+  transition: background-color 0.5s ease, box-shadow 0.5s ease;
+  user-select: none;
+  position: relative;
+  top: 0;
+  right: 500;
+  width: 45%;
+  height: 55%;
+}
+
+.daily-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.daily-item {
+  height: 135px;
+}
+
+/* ============================================================= */
+/*               10. عناصر التوقعات الساعية (Hourly Items)          */
+/* ============================================================= */
+.hourly-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(241, 196, 15, 0.1);
+  padding: 10px 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(241, 196, 15, 0.3);
+  width: 70px;
+  font-weight: 600;
+  color: #333;
+  transition: background-color 0.3s ease;
+  cursor: default;
+}
+
+.hourly-item:hover {
+  background-color: rgba(241, 196, 15, 0.25);
+}
+
+.hourly-item > div:first-child {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.hourly-item i {
+  font-size: 2.5rem;
+  color: #f1c40f;
+  margin-bottom: 8px;
+}
+
+.hourly-item > div:last-child {
+  font-size: 1.2rem;
+  color: #d1ac06;
+}
+
+/* ============================================================= */
+/*                      11. الفوتر (Footer)                        */
+/* ============================================================= */
+.simple-footer {
+  background-color: #222;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 200px;
+  height: 100px;
+  width: 100%;
+}
+
+.social-icons {
+  display: flex;
+  gap: 15px;
+}
+
+.social-icons a {
+  color: #fff;
+  font-size: 20px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #f1c40f;
+}
+
+/* ============================================================= */
+/*                 12. تصميم متجاوب (Responsive Design)            */
+/* ============================================================= */
+
+/* موبايل وتابلت (عبر نطاق 200px - 868px) */
+@media (min-width: 200px) and (max-width: 868px) {
+  main {
+    justify-content: center;
+    flex-direction: column;
+    width: 95%;
+    padding: 5px;
+    /* margin-left: 20px; */
+    /* margin-right: 10px; */
+    margin-top: 20px;
+    right: 5px;
+    left: 7px;
+  }
+
+  .current-weather,
+  .hourly-forecast,
+  .daily-forecast {
+    width: 95%;
+    height: 60%;
+    top: 0;
+    margin-bottom: 10px;
+    padding: 5px;
+    margin-left: 13px;
+  }
+
+  .weather-main {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .weather-temp {
+    font-size: 2.5rem;
+  }
+
+  #weather-icon i {
+    font-size: 4rem;
+  }
+
+  .weather-details {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .hourly-container {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    gap: 12px;
+  }
+
+  .hourly-item {
+    min-width: 70px;
+  }
+
+  .daily-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .daily-item {
+    height: auto;
+    padding: 10px;
+  }
+}
+
+/* تابلت فقط (بين 868px و 900px) */
+@media (min-width: 868px) and (max-width: 900px) {
+  main {
+    display: flex;
+    flex-direction: column;
+    max-width: 95%;
+    padding: 20px;
+    margin-top: 130px;
+    left: 2px;
+    margin-left: 20px;
+  }
+
+  .current-weather,
+  .hourly-forecast,
+  .daily-forecast {
+    width: 98%;
+    padding: 5px;
+    margin-bottom: 25px;
+    top: 0;
+    left: 20px;
+    margin-right: 20px;
+  }
+
+  .weather-main {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: space-between;
+  }
+
+  .weather-temp {
+    font-size: 3rem;
+  }
+
+  #weather-icon i {
+    font-size: 5rem;
+  }
+
+  .weather-details {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-around;
+  }
+
+  .hourly-container {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 15px;
+  }
+
+  .hourly-item {
+    min-width: 80px;
+    padding: 10px;
+  }
+
+  .daily-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 15px;
+  }
+
+  .daily-item {
+    padding: 15px;
+    text-align: center;
+  }
+
+  .search-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 15px;
+  }
+
+  .search-container input[type="text"] {
+    width: 70%;
+    font-size: 1rem;
+  }
+
+  .search-container button {
+    width: 25%;
+    font-size: 1rem;
+  }
+
+  .units {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .unit-btn {
+    padding: 8px 14px;
+    font-size: 1rem;
+  }
+}

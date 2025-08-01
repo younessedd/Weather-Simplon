@@ -1,0 +1,224 @@
+/* الوضع الليلي العام */
+body.dark {
+  background: #121212;
+  color: #ddd;
+}
+
+/* 🔴 الوضع الليلي لصفحة "Contact" */
+body.dark main {
+  background-color: var(--card-bg-dark);
+  color: #eee;
+  box-shadow: var(--shadow-dark);
+}
+
+body.dark .contact-form input,
+body.dark .contact-form textarea {
+  background-color: #1e1e1e;
+  color: #ddd;
+  border-color: #444;
+}
+
+body.dark .contact-form input:focus,
+body.dark .contact-form textarea:focus {
+  border-color: var(--primary-color-dark);
+  box-shadow: 0 0 8px var(--primary-color);
+}
+
+body.dark .contact-form button {
+  background-color: var(--primary-color-dark);
+  color: #000;
+}
+body.dark .contact-form button:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* 🔴 الوضع الليلي لصفحة "About Us" */
+body.dark .about-section {
+  background: #1a1a1a;
+  color: #ccc;
+  box-shadow: var(--shadow-dark);
+}
+
+body.dark .about-section p {
+  color: #aaa;
+}
+
+/* 🔴 الوضع الليلي لعناصر الطقس (كما في كودك السابق) */
+body.dark .current-weather,
+body.dark .daily-forecast,
+body.dark .hourly-forecast {
+  background-color: var(--card-bg-dark);
+  color: #ddd;
+}
+
+/* ...إلخ، كل ما كتبته حول forecast والطقس يبقى كما هو */
+
+
+/* current-weather */
+body.dark .current-weather {
+  background: linear-gradient(145deg, #1e293b, #15212c);
+  box-shadow: var(--shadow-dark);
+  border-color: #333;
+  color: #ccc;
+}
+
+body.dark .current-weather h2:first-of-type {
+  color: var(--primary-color);
+}
+
+body.dark #city-name {
+  color: #eee;
+}
+
+body.dark #weather-icon i {
+  color: var(--primary-color);
+  filter: drop-shadow(0 0 8px var(--primary-color));
+}
+
+body.dark .weather-temp {
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(241, 196, 15, 0.9);
+}
+
+body.dark #weather-description {
+  color: #aaa;
+}
+
+body.dark .weather-details {
+  gap: 30px;
+}
+
+body.dark .weather-details .detail {
+  background: #22303f;
+  color: #ddd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+body.dark .weather-details .detail:hover {
+  transform: translateY(-3px);
+}
+
+body.dark .weather-details .detail i {
+  color: var(--primary-color-dark);
+  filter: drop-shadow(0 0 6px var(--primary-color));
+}
+
+
+
+
+body.dark .search-and-settings {
+  background: var(--card-bg-dark);
+  box-shadow: var(--shadow-dark);
+  color: #ddd;
+}
+
+body.dark .search-container {
+  background: #1a2433;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+}
+
+body.dark .search-container input[type="text"] {
+  background: #22303f;
+  color: #eee;
+  border: 2px solid #555;
+}
+
+body.dark .search-container input[type="text"]:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 8px var(--primary-color);
+  outline: none;
+}
+
+body.dark .search-container button {
+  background: var(--primary-color-dark);
+  color: #222;
+}
+
+body.dark .search-container button:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+body.dark .units {
+  gap: 10px;
+}
+
+body.dark .unit-btn {
+  background-color: #22303f;
+  border-color: var(--primary-color-dark);
+  color: var(--primary-color);
+}
+
+body.dark .unit-btn.active,
+body.dark .unit-btn:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+body.dark #theme-toggle {
+  background: var(--primary-color-dark);
+  color: #222;
+  border-color: var(--primary-color-dark);
+}
+
+body.dark #theme-toggle:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+body.dark main {
+  background-color: var(--card-bg-dark);
+  box-shadow: var(--shadow-dark);
+  color: #ddd;
+}
+
+
+
+/* ✅ الوضع الليلي (Dark Mode) */
+body.dark {
+  background: #121212;
+  color: #eee;
+}
+
+/* خلفية النموذج */
+body.dark main {
+  background: var(--card-bg-dark);
+  color: #eee;
+  box-shadow: var(--shadow-dark);
+  border: 1px solid #333;
+}
+
+/* عنوان الصفحة */
+body.dark main h1 {
+  color: var(--primary-color);
+}
+
+/* عناصر النموذج */
+body.dark .contact-form label {
+  color: #ccc;
+}
+
+body.dark .contact-form input,
+body.dark .contact-form textarea {
+  background-color: #1e1e1e;
+  color: #ddd;
+  border-color: #444;
+}
+
+body.dark .contact-form input:focus,
+body.dark .contact-form textarea:focus {
+  border-color: var(--primary-color-dark);
+  box-shadow: 0 0 8px var(--primary-color);
+}
+
+/* الزر */
+body.dark .contact-form button {
+  background-color: var(--primary-color-dark);
+  color: #000;
+}
+
+body.dark .contact-form button:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
